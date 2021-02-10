@@ -1,25 +1,24 @@
-export default class Slider {
-  constructor (page, btns) {
-    //get parent
-    this.page = document.querySelector(page);
-    //get childrens of the parent
-    this.slides = this.page.children;
-    //get btn to swipe slides
-    this.btns = document.querySelectorAll(btns);
-    //start with
-    this.slideIndex = 1;
-  }
+import Slider from './slider';
 
+//to get the access to properties and methodhs that Slider has
+export default class MainSlider extends Slider {
+  constructor (btns) {
+    //to get the access
+    super(btns);
+  }
+  
   //common function
   showSlides (n) {
+    console.log(this.slides.length);
     //if the variable become more than we need then set 1
     if (n > this.slides.length) {
+      
       this.slideIndex = 1;
     }
 
     //if slider < 1 (= 0) than we swipe to the last elem of slider
     if (n < 1) {
-      this.slideIndex = this.slide.length;
+      this.slideIndex = this.slides.length;
     }
 
     try {
@@ -50,15 +49,7 @@ export default class Slider {
     this.showSlides(this.slideIndex += n);
   }
 
-  //main method
-  render() {
-    try {
-      //to create the teacher pop up block 
-      this.hanson = document.querySelector('.hanson');
-    } catch (e){}
-    
-
-
+  bindTriggers (arrow, target) {
     //if we clicked then plusSlides
     this.btns.forEach(item => {
       item.addEventListener('click', () => {
@@ -75,7 +66,28 @@ export default class Slider {
       });
     });
 
+    document.querySelectorAll(arrow).forEach(item => {
+      item.addEventListener('click', (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        this.plusSlides(target);
+      });
+    });
+  }
+
+
+  //main method
+  render() {
+    if (this.container) {
+      try {
+      //to create the teacher pop up block 
+      this.hanson = document.querySelector('.hanson');
+    } catch (e) {}
+
     //to initializate our slider
     this.showSlides(this.slideIndex);
+    this.bindTriggers('.nextmodule', 1);
+    this.bindTriggers('.prevmodule', -1);
+    }
   }
 }

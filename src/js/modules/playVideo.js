@@ -16,6 +16,7 @@ export default class VideoPlayer {
           this.overlay.style.display = 'flex';
         //if it did not create it
         } else {
+          this.overlay.style.display = 'flex';
           const path = btn.getAttribute('data-url');
           this.createPlayer(path);
         }
@@ -44,18 +45,20 @@ export default class VideoPlayer {
 
   //the main function
   init () {
-    //create a script
-    const tag = document.createElement('script');
-    //bind youtube API
-    tag.src = "https://www.youtube.com/iframe_api";
-    const firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    if (this.btns.length > 0) {
+      //create a script
+      const tag = document.createElement('script');
+      //bind youtube API
+      tag.src = "https://www.youtube.com/iframe_api";
+      const firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-    //to bind triggers
-    this.bindTriggers();
-    //to close the modal
-    this.bindCloseBtn();
-  }
+      //to bind triggers
+      this.bindTriggers();
+      //to close the modal
+      this.bindCloseBtn();
+    }      
+  }    
 }
 
       
