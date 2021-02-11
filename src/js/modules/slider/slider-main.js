@@ -52,6 +52,8 @@ export default class MainSlider extends Slider {
   bindTriggers (arrow, target) {
     //if we clicked then plusSlides
     this.btns.forEach(item => {
+      console.log('item: ', item);
+      console.log(item.parentNode.previousElementSibling);
       item.addEventListener('click', () => {
         //+1. we'll change it later
         this.plusSlides(1);
@@ -59,18 +61,29 @@ export default class MainSlider extends Slider {
 
       //if we click on logo then turn slides to one
       item.parentNode.previousElementSibling.addEventListener('click', (e) => {
-        e.preventDefault();
-        this.slideIndex = 1;
-        //change the variable
-        this.showSlides(this.slideIndex);
+        if (e.tagName === 'A') {
+          e.preventDefault();
+          e.stopPropagation();
+          this.slideIndex = 1;
+          //change the variable
+          this.showSlides(this.slideIndex);
+        }
       });
     });
 
-    document.querySelectorAll(arrow).forEach(item => {
+    document.querySelectorAll('.nextmodule').forEach(item => {
       item.addEventListener('click', (e) => {
         e.stopPropagation();
         e.preventDefault();
-        this.plusSlides(target);
+        this.plusSlides(1);
+      });
+    });
+
+    document.querySelectorAll('.prevmodule').forEach(item => {
+      item.addEventListener('click', (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        this.plusSlides(-1);
       });
     });
   }
@@ -86,8 +99,7 @@ export default class MainSlider extends Slider {
 
     //to initializate our slider
     this.showSlides(this.slideIndex);
-    this.bindTriggers('.nextmodule', 1);
-    this.bindTriggers('.prevmodule', -1);
+    this.bindTriggers();
     }
   }
 }
